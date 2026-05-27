@@ -2,294 +2,250 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>فك الروابط</title>
-
-<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;900&display=swap" rel="stylesheet">
 
 <style>
 *{
     margin:0;
     padding:0;
     box-sizing:border-box;
-    font-family:'Tajawal',sans-serif;
+    font-family:Tahoma,sans-serif;
 }
 
 body{
-    background:#000;
-    color:#fff;
     min-height:100vh;
+    background:linear-gradient(-45deg,#6a00ff,#ff00c8,#7b2cff,#ff4fd8);
+    background-size:400% 400%;
+    animation:bg 10s ease infinite;
     display:flex;
     justify-content:center;
     align-items:center;
     overflow:hidden;
-    position:relative;
 }
 
-body::before{
-    content:"";
-    position:absolute;
-    width:700px;
-    height:700px;
-    background:radial-gradient(circle,#ffffff15,transparent 70%);
-    top:-200px;
-    right:-200px;
+@keyframes bg{
+    0%{background-position:0% 50%;}
+    50%{background-position:100% 50%;}
+    100%{background-position:0% 50%;}
 }
 
-body::after{
-    content:"";
-    position:absolute;
-    width:600px;
-    height:600px;
-    background:radial-gradient(circle,#ffffff10,transparent 70%);
-    bottom:-250px;
-    left:-250px;
-}
-
-.container{
-    width:95%;
-    max-width:850px;
-    background:#0f0f0f;
-    border:1px solid #222;
+.box{
+    width:90%;
+    max-width:950px;
+    background:rgba(20,20,20,.65);
+    border:1px solid rgba(255,255,255,.1);
+    backdrop-filter:blur(15px);
     border-radius:30px;
-    padding:40px;
-    position:relative;
-    z-index:2;
+    padding:35px;
     box-shadow:
-    0 0 30px #ffffff10,
-    inset 0 0 30px #ffffff08;
-    backdrop-filter:blur(10px);
+    0 0 40px rgba(255,0,200,.3),
+    0 0 80px rgba(106,0,255,.3);
+    animation:show 1s ease;
+}
+
+@keyframes show{
+    from{
+        transform:translateY(30px);
+        opacity:0;
+    }
+    to{
+        transform:translateY(0);
+        opacity:1;
+    }
 }
 
 .logo{
     text-align:center;
-    margin-bottom:35px;
+    margin-bottom:30px;
 }
 
 .logo h1{
     font-size:55px;
-    font-weight:900;
-    letter-spacing:2px;
-    color:#fff;
-    text-shadow:0 0 20px #ffffff30;
+    color:white;
+    text-shadow:0 0 25px #ff00d9;
 }
 
 .logo p{
-    color:#aaa;
     margin-top:10px;
+    color:#ddd;
     font-size:18px;
 }
 
 .inputBox{
     position:relative;
-    margin-bottom:20px;
+    margin-bottom:25px;
 }
 
-.inputBox input{
+input{
     width:100%;
-    background:#050505;
-    border:2px solid #1f1f1f;
-    outline:none;
-    color:#fff;
     padding:20px;
+    border:none;
+    outline:none;
     border-radius:18px;
-    font-size:18px;
-    transition:0.3s;
+    background:rgba(255,255,255,.08);
+    color:white;
+    font-size:17px;
+    transition:.3s;
 }
 
-.inputBox input:focus{
-    border-color:#fff;
-    box-shadow:0 0 25px #ffffff25;
+input::placeholder{
+    color:#ccc;
 }
 
-.inputBox input::placeholder{
-    color:#777;
+input:focus{
+    box-shadow:0 0 25px #ff00d9;
+    transform:scale(1.01);
 }
 
 button{
     width:100%;
-    border:none;
-    background:#fff;
-    color:#000;
     padding:18px;
+    border:none;
     border-radius:18px;
+    background:linear-gradient(90deg,#7b2cff,#ff00c8);
+    color:white;
     font-size:20px;
-    font-weight:900;
     cursor:pointer;
-    transition:0.3s;
+    transition:.3s;
+    font-weight:bold;
 }
 
 button:hover{
     transform:scale(1.02);
-    box-shadow:0 0 30px #ffffff40;
+    box-shadow:0 0 30px #ff00d9;
 }
 
 .loading{
     display:none;
+    margin-top:25px;
     text-align:center;
-    margin-top:25px;
-    color:#ccc;
-    font-size:18px;
-    animation:fade 1s infinite alternate;
+    color:white;
+    font-size:20px;
 }
 
-@keyframes fade{
-    from{
-        opacity:0.4;
-    }
-    to{
-        opacity:1;
-    }
-}
-
-.output{
-    margin-top:25px;
+.result{
     display:none;
+    margin-top:25px;
 }
 
-.output textarea{
+textarea{
     width:100%;
-    min-height:300px;
-    background:#050505;
-    border:2px solid #1f1f1f;
-    color:#fff;
-    padding:20px;
-    border-radius:20px;
-    resize:none;
-    font-size:15px;
+    height:320px;
+    border:none;
     outline:none;
+    resize:none;
+    border-radius:20px;
+    padding:20px;
+    background:#111;
+    color:#fff;
+    font-size:15px;
+    line-height:1.8;
 }
 
 .copyBtn{
     margin-top:15px;
-    background:#111;
-    color:#fff;
-    border:1px solid #333;
-}
-
-.copyBtn:hover{
-    background:#fff;
-    color:#000;
 }
 
 .footer{
     text-align:center;
+    color:#bbb;
     margin-top:25px;
-    color:#666;
     font-size:14px;
-}
-
-.glow{
-    position:absolute;
-    width:200px;
-    height:200px;
-    background:#fff;
-    filter:blur(150px);
-    opacity:0.05;
-    border-radius:50%;
-}
-
-.glow1{
-    top:0;
-    left:0;
-}
-
-.glow2{
-    bottom:0;
-    right:0;
 }
 </style>
 </head>
 
 <body>
 
-<div class="glow glow1"></div>
-<div class="glow glow2"></div>
+<div class="box">
 
-<div class="container">
+    <div class="logo">
+        <h1>فك الروابط</h1>
+        <p>حط الرابط وخله علينا 😎</p>
+    </div>
 
-<div class="logo">
-<h1>فك الروابط</h1>
-<p>حط الرابط وخله علينا 😎</p>
-</div>
+    <div class="inputBox">
+        <input 
+        type="text" 
+        id="urlInput" 
+        placeholder="حط الرابط هنا..." />
+    </div>
 
-<div class="inputBox">
-<input 
-type="text" 
-id="urlInput" 
-placeholder="حط الرابط هنا..."
-autocomplete="off"
-/>
-</div>
+    <button onclick="fetchScript()">
+        فك الرابط
+    </button>
 
-<button onclick="fetchRaw()">فك الرابط</button>
+    <div class="loading" id="loading">
+        انتظر شوي...
+    </div>
 
-<div class="loading" id="loading">
-انتظر شوي...
-</div>
+    <div class="result" id="resultBox">
 
-<div class="output" id="outputBox">
-<textarea id="result" readonly></textarea>
+        <textarea id="output"></textarea>
 
-<button class="copyBtn" onclick="copyText()">
-نسخ السكربت
-</button>
-</div>
+        <button class="copyBtn" onclick="copyText()">
+            نسخ السكربت
+        </button>
 
-<div class="footer">
-يدعم فقط Lua و Luau
-</div>
+    </div>
+
+    <div class="footer">
+        يدعم فقط Lua و Luau
+    </div>
 
 </div>
 
 <script>
-async function fetchRaw(){
+async function fetchScript(){
 
     const url = document.getElementById("urlInput").value.trim();
     const loading = document.getElementById("loading");
-    const outputBox = document.getElementById("outputBox");
-    const result = document.getElementById("result");
+    const resultBox = document.getElementById("resultBox");
+    const output = document.getElementById("output");
 
     if(!url){
-        alert("حط الرابط اول");
+        alert("حط الرابط أول");
         return;
     }
 
     loading.style.display = "block";
-    outputBox.style.display = "none";
+    resultBox.style.display = "none";
 
     try{
 
         const response = await fetch(url);
-
-        if(!response.ok){
-            throw new Error("فشل تحميل الرابط");
-        }
-
         const text = await response.text();
 
-        loading.style.display = "none";
-        outputBox.style.display = "block";
+        setTimeout(() => {
 
-        result.value = text;
+            output.value = text;
+
+            loading.style.display = "none";
+            resultBox.style.display = "block";
+
+        },2000);
 
     }catch(err){
 
         loading.style.display = "none";
 
-        alert("الرابط خربان او ما يدعم Raw");
+        alert("صار خطأ بالرابط");
 
     }
+
 }
 
 function copyText(){
 
-    const text = document.getElementById("result");
+    const output = document.getElementById("output");
 
-    text.select();
-    text.setSelectionRange(0,999999);
+    output.select();
+    output.setSelectionRange(0,99999);
 
-    navigator.clipboard.writeText(text.value);
+    navigator.clipboard.writeText(output.value);
+
+    alert("تم نسخ السكربت");
 
 }
 </script>
