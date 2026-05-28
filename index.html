@@ -87,6 +87,7 @@
             direction: ltr;
             box-shadow: inset 0 0 10px rgba(0,0,0,0.5);
             transition: all 0.4s ease;
+            user-select: text;
         }
 
         input[type="text"]:focus {
@@ -266,12 +267,27 @@
 
     <div class="main-container">
         <h1>فك الروابط</h1>
-        
+
         <div class="input-group">
-            <input type="text" id="urlInput" placeholder="حط الرابط هنا...">
+            <input
+                type="text"
+                id="urlInput"
+                placeholder="حط الرابط هنا..."
+                autocomplete="off"
+                autocorrect="off"
+                autocapitalize="off"
+                spellcheck="false"
+            >
         </div>
 
-        <button class="btn-action" id="actionBtn" onclick="processLink()">افتح وفك الرابط</button>
+        <button
+            type="button"
+            class="btn-action"
+            id="actionBtn"
+            onclick="processLink()"
+        >
+            افتح وفك الرابط
+        </button>
 
         <div class="status-msg" id="statusMessage">انتظر شوي…</div>
 
@@ -279,7 +295,15 @@
             <div class="code-container">
                 <pre><code id="codeArea"></code></pre>
             </div>
-            <button class="btn-copy" id="copyBtn" onclick="copyCode()">نسخ السكربت</button>
+
+            <button
+                type="button"
+                class="btn-copy"
+                id="copyBtn"
+                onclick="copyCode()"
+            >
+                نسخ السكربت
+            </button>
         </div>
     </div>
 
@@ -291,6 +315,22 @@
         const codeArea = document.getElementById('codeArea');
         const copyBtn = document.getElementById('copyBtn');
 
+        
+        urlInput.addEventListener('paste', (e) => {
+            e.preventDefault();
+
+            const pastedText = (
+                e.clipboardData || window.clipboardData
+            ).getData('text');
+
+            urlInput.value = pastedText.trim();
+        });
+
+        
+        urlInput.addEventListener('drop', (e) => {
+            e.preventDefault();
+        });
+
         function processLink() {
             const urlValue = urlInput.value.trim();
 
@@ -299,15 +339,21 @@
             }
 
             outputBox.classList.remove('show');
-            setTimeout(() => { outputBox.style.display = 'none'; }, 500);
-            
+
+            setTimeout(() => {
+                outputBox.style.display = 'none';
+            }, 500);
+
             statusMessage.style.color = '#ff4fa8';
             statusMessage.innerText = "انتظر شوي…";
             statusMessage.style.display = "block";
 
             setTimeout(() => {
-                const isRaw = urlValue.includes('raw') || urlValue.includes('pastebin.com/raw') || urlValue.includes('githubusercontent.com');
-                
+                const isRaw =
+                    urlValue.includes('raw') ||
+                    urlValue.includes('pastebin.com/raw') ||
+                    urlValue.includes('githubusercontent.com');
+
                 if (!isRaw) {
                     showError();
                     return;
@@ -318,16 +364,29 @@
                         if (!response.ok) {
                             throw new Error('Network error');
                         }
+
                         return response.text();
                     })
                     .then(data => {
                         const cleanData = data.trim();
-                        if (cleanData === "" || (!cleanData.includes('function') && !cleanData.includes('local') && !cleanData.includes('end') && !cleanData.includes('print'))) {
+
+                        if (
+                            cleanData === "" ||
+                            (
+                                !cleanData.includes('function') &&
+                                !cleanData.includes('local') &&
+                                !cleanData.includes('end') &&
+                                !cleanData.includes('print')
+                            )
+                        ) {
                             showError();
                         } else {
                             statusMessage.style.display = "none";
+
                             codeArea.innerText = cleanData;
+
                             outputBox.style.display = 'block';
+
                             setTimeout(() => {
                                 outputBox.classList.add('show');
                             }, 50);
@@ -343,7 +402,7 @@
         function showError() {
             statusMessage.style.color = '#ff003c';
             statusMessage.innerText = "Error : 404";
-            
+
             setTimeout(() => {
                 statusMessage.style.display = "none";
                 urlInput.value = "";
@@ -352,9 +411,12 @@
 
         function copyCode() {
             const textToCopy = codeArea.innerText;
+
             navigator.clipboard.writeText(textToCopy).then(() => {
                 const originalText = copyBtn.innerText;
+
                 copyBtn.innerText = "تم النسخ السكربت";
+
                 setTimeout(() => {
                     copyBtn.innerText = originalText;
                 }, 2000);
@@ -362,13 +424,22 @@
         }
 
         function climbDown() {
-            if (outputBox.style.display === 'block' || outputBox.classList.contains('show')) {
-                copyBtn.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            if (
+                outputBox.style.display === 'block' ||
+                outputBox.classList.contains('show')
+            ) {
+                copyBtn.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'center'
+                });
             }
         }
 
         function climbUp() {
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
         }
     </script>
 </body>
